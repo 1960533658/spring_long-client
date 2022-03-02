@@ -23,7 +23,7 @@ export default {
 html {
   box-sizing: border-box;
   body {
-    height: 100%;
+    height: fit-content;
     box-sizing: border-box;
     background-image: url("~@/assets/image/bg2.jpg");
     background-repeat: no-repeat;

@@ -75,7 +75,7 @@
             <a href="javascript:">《隐私条款》</a>
             <span>和</span>
             <a href="javascript:">《服务条款》</a>
-            <span class="no" @click="toRegist">已有账号，去登陆</span>
+            <span class="no" @click="toLoginPage">已有账号，去登陆</span>
           </div>
           <div class="error">
             <i class="iconfont icon-warning" v-if="isRegistArgeeError">{{
@@ -165,10 +165,6 @@ export default {
       }
     };
     // 注册账号事件
-    /**
-     * kangkang1
-     * 13111111111
-     */
     const registCheckErrorMsg = ref("请阅读并勾选协议");
     const onRegist = () => {
       // 判断用户是否勾选协议，未勾选不能注册
@@ -207,6 +203,10 @@ export default {
         isRegistArgeeError.value = true;
       }
     };
+    // 跳转到登录页面
+    const toLoginPage = () => {
+      router.push("/login");
+    };
     //#endregion
     return {
       // 双向数据绑定 账户 密码 手机号 注册勾选协议状态
@@ -233,6 +233,8 @@ export default {
       RepeatpasswordVerify,
       mobileVerify,
       onRegist,
+      // 前往登录页面函数
+      toLoginPage,
     };
   },
 };

@@ -19,4 +19,10 @@ export default {
   },
 };
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.page-home {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 215, 0, 0.7);
+}
+</style>
