@@ -1,5 +1,4 @@
 <template>
-  <!-- <button @click="onHandle">点击替换</button> -->
   <router-view />
 </template>
 <script>
@@ -21,14 +20,14 @@ export default {
 </script>
 <style lang="less">
 html {
-  box-sizing: border-box;
   body {
-    height: fit-content;
+    height: 100%;
     box-sizing: border-box;
     background-image: url("~@/assets/image/bg2.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    overflow: hidden;
 
     template {
       display: block;
