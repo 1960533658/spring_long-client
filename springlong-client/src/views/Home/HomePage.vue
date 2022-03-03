@@ -1,5 +1,19 @@
 <template>
-  <div class="page-home">首页</div>
+  <div class="page-home">
+    <div class="welcome">
+      <h1>
+        欢迎用户{{ store.state.user.profile.username }}来到Spring_Long聊天室
+      </h1>
+      <span class="ambition"
+        >立志打造一个充满欢声笑语，不负青春年华的聊天室</span
+      >
+      <div class="select">
+        <router-link to="/chatlist" class="chat-list">聊天列表</router-link>
+        <router-link to="/chatfriend" class="chat-friend">联系人</router-link>
+        <router-link to="/chatmoving" class="chat-moving">动态</router-link>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { onBeforeMount } from "vue";
@@ -16,6 +30,9 @@ export default {
         router.push("/login");
       }
     });
+    return {
+      store,
+    };
   },
 };
 </script>
@@ -23,6 +40,49 @@ export default {
 .page-home {
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 215, 0, 0.7);
+  background-color: rgba(255, 215, 0, 0.4);
+
+  .welcome {
+    width: 1240px;
+    margin: 0 auto;
+    h1 {
+      text-align: center;
+      padding-top: 100px;
+      font-size: 36px;
+      color: #02ff89;
+      font-weight: 700;
+    }
+    .ambition {
+      display: block;
+      text-align: center;
+      font-size: 30px;
+      color: #ae19c9;
+    }
+    .select {
+      display: flex;
+      a {
+        flex: 1;
+        text-align: center;
+        margin-right: 10px;
+        height: 100px;
+        line-height: 100px;
+        border-radius: 10px;
+        font-size: 30px;
+        font-weight: 700;
+        background-color: gold;
+        cursor: pointer;
+        transition: 0.5s linear;
+      }
+      a:hover {
+        font-size: 40px;
+        box-shadow: 0 10px 15px @xtxColor;
+        cursor: pointer;
+        transition: 0.5s linear;
+      }
+      .chat-list {
+        margin-left: 10px;
+      }
+    }
+  }
 }
 </style>

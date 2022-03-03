@@ -16,6 +16,8 @@ export default {
         username: "",
         // 用户手机号
         mobile: "",
+        // 签名
+        sign: "",
         // 用户登录凭证
         token: "",
       },
