@@ -24,6 +24,7 @@
                   placeholder="请输入用户名"
                   @blur="usernameVerify('username')"
                   v-model="username"
+                  v-focus
                 />
               </div>
               <div class="error">
