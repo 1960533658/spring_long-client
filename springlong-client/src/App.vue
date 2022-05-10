@@ -2,10 +2,19 @@
   <router-view />
 </template>
 <script>
-// import { useStore } from "vuex";
-
+import { useStore } from "vuex";
+import io from "socket.io-client";
+import { onMounted } from "vue";
 export default {
   setup() {
+    const store = useStore();
+    let socket = io("http://localhost:3001");
+    onMounted(() => {
+      console.log(store.state.user);
+      socket.on("connect", () => {
+        console.log("监听客户端连接成功");
+      });
+    });
     // const store = useStore();
     // const onHandle = () => {
     // store.commit("user/setUser", { token: "test" });

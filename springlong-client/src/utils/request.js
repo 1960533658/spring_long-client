@@ -69,7 +69,7 @@ function generateRequestConfig(url, method, data) {
 
 //#region  用于发送携带token的请求
 export function requestWithToken(url, method, data) {
-  instanceWithToken(generateRequestConfig(url, method, data));
+  return instanceWithToken(generateRequestConfig(url, method, data));
 }
 
 //#endregion

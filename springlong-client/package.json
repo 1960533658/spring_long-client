@@ -14,8 +14,11 @@
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "normalize.css": "^8.0.1",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "vee-validate": "^4.4.11",
     "vue": "^3.0.0",
+    "vue-3-socket.io": "^1.0.5",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "vuex-persistedstate": "^4.1.0"

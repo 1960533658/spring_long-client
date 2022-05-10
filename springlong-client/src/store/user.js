@@ -16,6 +16,8 @@ export default {
         username: "",
         // 用户手机号
         mobile: "",
+        friends_list: [],
+        apply_list: {},
         // 签名
         sign: "",
         // 用户登录凭证
@@ -38,6 +40,10 @@ export default {
         // 是空对象, 表示要进行用户信息的清除
         state.profile = {};
       }
+    },
+    //  通过Id删除申请数据
+    setUserApplyList(state, { apply_list }) {
+      state.profile.apply_list = apply_list;
     },
   },
 };

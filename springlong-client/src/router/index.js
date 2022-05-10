@@ -3,8 +3,8 @@ import HomePage from "@/views/Home/HomePage.vue";
 import LoginPage from "@/views/User/Login/LoginPage.vue";
 import RegistPage from "@/views/User/Regist/RegistPage.vue";
 import ChatList from "@/views/Chat/ChatList.vue";
-import ChatFriend from "@/views/Chat/ChatFriend.vue"
-import ChatMoving from "@/views/Chat/ChatMoving.vue"
+import ChatFriend from "@/views/Chat/ChatFriend.vue";
+import ChatMoving from "@/views/Chat/ChatMoving.vue";
 const routes = [
   {
     path: "/",
