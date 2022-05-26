@@ -7,10 +7,6 @@ import ChatFriend from "@/views/Chat/ChatFriend.vue";
 import ChatMoving from "@/views/Chat/ChatMoving.vue";
 const routes = [
   {
-    path: "/",
-    component: HomePage,
-  },
-  {
     path: "/login",
     component: LoginPage,
   },
@@ -18,6 +14,11 @@ const routes = [
     path: "/regist",
     component: RegistPage,
   },
+  {
+    path: "/",
+    component: HomePage,
+  },
+
   {
     path: "/chatlist",
     component: ChatList,

@@ -7,11 +7,7 @@
       <span class="ambition"
         >立志打造一个充满欢声笑语，不负青春年华的聊天室</span
       >
-      <div class="select">
-        <router-link to="/chatlist" class="chat-list">聊天列表</router-link>
-        <router-link to="/chatfriend" class="chat-friend">联系人</router-link>
-        <router-link to="/chatmoving" class="chat-moving">动态</router-link>
-      </div>
+      <ChatHead />
     </div>
   </div>
 </template>
@@ -19,6 +15,7 @@
 import { onBeforeMount } from "vue";
 import router from "../../router";
 import { useStore } from "vuex";
+import ChatHead from "../Chat/components/ChatHead.vue";
 
 export default {
   name: "HomePage",
@@ -34,6 +31,7 @@ export default {
       store,
     };
   },
+  components: { ChatHead },
 };
 </script>
 <style scoped lang="less">
@@ -57,31 +55,6 @@ export default {
       text-align: center;
       font-size: 30px;
       color: #ae19c9;
-    }
-    .select {
-      display: flex;
-      a {
-        flex: 1;
-        text-align: center;
-        margin-right: 10px;
-        height: 100px;
-        line-height: 100px;
-        border-radius: 10px;
-        font-size: 30px;
-        font-weight: 700;
-        background-color: gold;
-        cursor: pointer;
-        transition: 0.5s linear;
-      }
-      a:hover {
-        font-size: 40px;
-        box-shadow: 0 10px 15px @xtxColor;
-        cursor: pointer;
-        transition: 0.5s linear;
-      }
-      .chat-list {
-        margin-left: 10px;
-      }
     }
   }
 }

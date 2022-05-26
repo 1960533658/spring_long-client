@@ -3,17 +3,18 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import { onMounted } from "vue";
 export default {
   setup() {
     const store = useStore();
-    let socket = io("http://localhost:3001");
+    // let socket = io("http://localhost:3001");
     onMounted(() => {
       console.log(store.state.user);
-      socket.on("connect", () => {
-        console.log("监听客户端连接成功");
-      });
+      // socket.on("connect", () => {
+      //   console.log("监听客户端连接成功");
+      // });
+      // console.log(socketClient)
     });
     // const store = useStore();
     // const onHandle = () => {

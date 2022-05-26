@@ -9,7 +9,6 @@
       @blur="onSearchOver"
       @input="onInput($event)"
     />
-    <button>test</button>
   </div>
 </template>
 

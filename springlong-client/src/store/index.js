@@ -1,7 +1,8 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import { getGoodFriendsList } from "../api/chat";
+// import { getGoodFriendsList } from "../api/chat";
 import user from "./user";
+import chatList from "./chatList";
 export default createStore({
   plugins: [
     createPersistedState({
@@ -80,14 +81,9 @@ export default createStore({
     dispatchUpdataTagData(context, payload) {
       context.commit("updataTagData", payload);
     },
-    // 异步获取好友列表数据
-    disPatchGetGoodFriend(context, payload) {
-      getGoodFriendsList(payload).then((response) => {
-        context.commit("getGoodFriend", response.data);
-      });
-    },
   },
   modules: {
     user,
+    chatList,
   },
 });

@@ -21,10 +21,4 @@ import library from "./components/library";
 //   extraHeaders: { "Access-Control-Allow-Origin": '*' },
 // })
 /* */
-createApp(App)
-  .use(store)
-  .use(message)
-  .use(router)
-  .use(library)
-  // .use(socketio)
-  .mount("#app");
+createApp(App).use(store).use(message).use(router).use(library).mount("#app");

@@ -2,7 +2,8 @@
   <div class="page-chat-friend">
     <h1 class="">这里是您的联系人，与你共同度过这似水年华的人</h1>
     <SearchAdd v-model="searchValue" @keyup.enter="keyEnter" />
-    <div class="box">
+    <ChatHead />
+    <ChatLayout :BGC="BGC">
       <div class="option">
         <div class="option-item">
           <span @click="showFriendApplyModel">好友申请</span>
@@ -23,7 +24,7 @@
           <div class="chat-item" @click="delFriend">删除好友</div>
         </template>
       </CustomMenu>
-    </div>
+    </ChatLayout>
     <!-- 传送——好友搜索组件弹窗 -->
     <teleport to="#popup" v-if="store.state.searchValuehModle">
       <!-- 好友搜索弹窗组件 -->
@@ -51,14 +52,22 @@
 
 <script>
 import { computed, onBeforeMount, onMounted, ref } from "vue";
-import { delGoodFriend, getFriendApplyAdd, searchFriend } from "../../api/chat";
+import {
+  delGoodFriend,
+  getFriendApplyAdd,
+  getGoodFriendsList,
+  searchFriend,
+  updataGoodFriendsList,
+} from "../../api/chat";
 import { message } from "ant-design-vue";
 import { useStore } from "vuex";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
+import ChatLayout from "./components/ChatLayout.vue";
+import ChatHead from "./components/ChatHead.vue";
 export default {
   name: "ChatFriend",
   setup() {
-    // 弹窗类型
+    const BGC = "rgba(66, 185, 131, 0.5)";
     // 搜索字符
     const searchValue = ref("");
     // 通过store获取弹窗是否显示
@@ -66,7 +75,6 @@ export default {
     const id = store.state.user.profile.id;
     const user = store.state;
     console.log(user);
-
     // 键盘Enter键触发
     const keyEnter = () => {
       // 查询空格无效
@@ -98,7 +106,6 @@ export default {
       count += store.state.user.profile.apply_list.apllyToMe.length;
       return count;
     });
-
     //#region  好友申请弹窗
     // 好友申请弹窗的显示类型
     const showFriendApplyModel = () => {
@@ -121,16 +128,23 @@ export default {
       });
     };
     //#endregion
-
     //#region  已经确定是好友的列表
     //  在 onBeforeMount 之前获取好友列表数据
     // 定义变量就收好友列表参数
     const goodFriendsListData = ref([]);
     onBeforeMount(() => {
       // 通过vuex进行数据的初始化获取
-      store.dispatch("disPatchGetGoodFriend", id);
+      getGoodFriendsList(id).then((response) => {
+        // 当数据获取陈工 将好友数据更新到vuex中
+        if (response.status === 200) {
+          store.commit("getGoodFriend", response.data);
+          // 当token验证过期或没有 就跳转到登录页面
+        } else if (response.status === 100) {
+          message.warn(response.msg);
+          router.push("/login");
+        }
+      });
     });
-
     //#endregion
     onMounted(() => {
       document.addEventListener("click", () => {
@@ -144,27 +158,34 @@ export default {
         });
       });
     });
-
-    //#region  跳转到聊天列表界面
-    const router = useRouter()
+    //#region  跳转到聊天列表界面 向后端更改好友聊天列表数据
+    const router = useRouter();
     const openChat = () => {
+      // 获取右键项目的 好友id
       const otherId = store.state.rightMenuUserId;
-      router.push(`/chatlist/${otherId}`)
+      updataGoodFriendsList(otherId, id).then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          router.push(`/chatlist?id=${otherId}`);
+        }
+      });
     };
     //#endregion
-
     //#region  删除好友
     const delFriend = () => {
+      // 获取右键项目的 好友id
       const otherId = store.state.rightMenuUserId;
+      // 删除好友向后端发送请求
       delGoodFriend(otherId, store.state.user.profile.id).then((response) => {
+        // 当请求状态为200 删除本地的当前id
         if (response.status === 200) {
           store.commit("deleteGoodFriend", otherId);
         }
       });
     };
     //#endregion
-
     return {
+      BGC,
       searchValue,
       keyEnter,
       store,
@@ -175,6 +196,7 @@ export default {
       delFriend,
     };
   },
+  components: { ChatLayout, ChatHead },
 };
 </script>
 
@@ -190,61 +212,53 @@ export default {
     font-size: 36px;
     font-weight: 700;
   }
-  .box {
-    height: 700px;
-    width: 1250px;
-    margin: 0 auto;
-    padding: 20px;
-    background: rgba(66, 185, 131, 0.5);
+  .option {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 
-    .option {
-      display: flex;
-      width: 100%;
-      justify-content: space-evenly;
-
-      .option-item {
-        position: relative;
-        span {
-          display: inline-block;
-          font-size: 20px;
-          font-weight: 700;
-          color: #fff;
-          padding: 10px 20px;
-          background-color: gold;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-        span:hover {
-          transform: scale(1.1);
-
-          + .count {
-            transform: scale(1.1);
-          }
-        }
-      }
-    }
-
-    .friend-list {
-      h2 {
-        text-align: center;
+    .option-item {
+      position: relative;
+      span {
+        display: inline-block;
+        font-size: 20px;
         font-weight: 700;
-        font-size: 30px;
-        color: #eed80a;
+        color: #fff;
+        padding: 10px 20px;
+        background-color: gold;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      span:hover {
+        transform: scale(1.1);
+
+        + .count {
+          transform: scale(1.1);
+        }
       }
     }
+  }
 
-    //  右键菜单插槽样式
-    .chat-item {
+  .friend-list {
+    h2 {
       text-align: center;
-      padding: 0 5px;
-      color: #fff;
-      cursor: pointer;
+      font-weight: 700;
+      font-size: 30px;
+      color: #eed80a;
     }
-    .chat-item:hover {
-      background-color: rgb(100, 230, 88);
-      transform: scale(1.1);
-      transition: linear 0.3;
-    }
+  }
+
+  //  右键菜单插槽样式
+  .chat-item {
+    text-align: center;
+    padding: 0 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .chat-item:hover {
+    background-color: rgb(100, 230, 88);
+    transform: scale(1.1);
+    transition: linear 0.3;
   }
 }
 
