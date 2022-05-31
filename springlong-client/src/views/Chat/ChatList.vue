@@ -8,14 +8,16 @@
       <main>
         <h2 class="fl">{{ $store.state.chatList.chatWindow.title }}</h2>
         <aside class="left">
-          <RetrenchItem :data="chatListData" />
+          <RetrenchItem
+            :data="chatListData"
+            v-model:chatRecordsData="chatRecordsData"
+          />
         </aside>
         <article class="right">
           <!-- :chatRecordsData="chatRecordsData" -->
           <ChatInputBox
             :dataLength="chatListData.length"
             v-model:chatRecordsData="chatRecordsData"
-            v-if="Object.keys(chatRecordsData).length > 0"
           />
         </article>
       </main>

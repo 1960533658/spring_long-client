@@ -1,24 +1,41 @@
 <template>
   <div class="select">
-    <router-link to="/chatlist" class="chat-list">聊天列表</router-link>
+    <router-link to="/" class="chat-list">聊天列表</router-link>
     <router-link to="/chatfriend" class="chat-friend">联系人</router-link>
     <router-link to="/chatmoving" class="chat-moving">动态</router-link>
+    <span class="avatar-box">
+      <UserAvatar :username="username" :portrait="portrait" />
+    </span>
   </div>
 </template>
 <script>
+import { useStore } from "vuex";
 export default {
   name: "ChatHead",
+  setup() {
+    const store = useStore();
+    const { username, portrait } = store.state.user.profile;
+    return {
+      username,
+      portrait,
+    };
+  },
 };
 </script>
 
 <style scoped lang="less">
 .select {
-  display: flex;
-  width: 1250px;
-  margin: 5px auto 10px;
-
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0 10px;
+  height: 100px;
+  text-align: center;
   a {
-    flex: 1;
+    display: inline-block;
+    width: 20%;
     text-align: center;
     margin-right: 10px;
     height: 90px;
@@ -31,13 +48,17 @@ export default {
     transition: 0.5s linear;
   }
   a:hover {
-    font-size: 40px;
     box-shadow: 0 10px 15px @xtxColor;
     cursor: pointer;
     transition: 0.5s linear;
   }
   .chat-list {
     margin-left: 10px;
+  }
+  .avatar-box {
+    position: absolute;
+    right: 300px;
+    top: 30px;
   }
 }
 </style>

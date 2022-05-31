@@ -17,6 +17,7 @@
         <h2>好友列表</h2>
         <ItemTag :data="$store.state.goodFriendsListData"></ItemTag>
       </div>
+      <!-- 自定义右键选项菜单 -->
       <CustomMenu v-if="$store.state.rightMenuIsShow">
         <!-- 具名插槽 -->
         <template #chatFriend>

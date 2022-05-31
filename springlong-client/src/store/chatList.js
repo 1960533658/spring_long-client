@@ -4,7 +4,7 @@ export default {
     return {
       chatWindow: {
         selectedId: undefined,
-        title: "aaaa",
+        title: "",
         chatRoom: "",
       },
     };

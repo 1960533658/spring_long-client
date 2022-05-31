@@ -48,12 +48,6 @@
       @keydown.enter="sendMessage"
       v-model="inputStr"
       @input="handleInput"
-      :disabled="!dataLength"
-    ></textarea>
-    <textarea
-      v-if="!dataLength"
-      placeholder="无好友聊天列表，暂时无法输入"
-      class="unHas"
     ></textarea>
     <div class="option">
       <div class="close">关闭(C)</div>
@@ -106,8 +100,7 @@ export default {
     const inputStr = ref("");
     //#region  当用户输入时限制输入内容的最大长度
     const handleInput = () => {
-      // 输入的字符长度不能大于150 不能有前后空格
-      inputStr.value = inputStr.value.trim();
+      // 输入的字符长度不能大于150
       if (inputStr.value.length > 150) {
         inputStr.value = inputStr.value.slice(0, 150);
         message.error("字符长度不能大于150");
@@ -145,15 +138,22 @@ export default {
       () => store.state.chatList.chatWindow.portrait
     );
     const sendMessage = () => {
-      // 触发 websocket 中的 消息发送事件 发送给后端
-      socket.emit("sendMsg", {
-        from: myId,
-        msg: inputStr.value,
-        to: to.value,
-        chatRoom: chatRoom.value,
-      });
-      // 发送完成清空输入框
-      inputStr.value = "";
+      // 如果输入内容不为空 不发送内容
+      if (inputStr.value.trim() !== "") {
+        // 去除前后空格
+        inputStr.value = inputStr.value.trim();
+        // 触发 websocket 中的 消息发送事件 发送给后端
+        socket.emit("sendMsg", {
+          from: myId,
+          msg: inputStr.value,
+          to: to.value,
+          chatRoom: chatRoom.value,
+        });
+        // 发送完成清空输入框
+        inputStr.value = "";
+      } else {
+        message.error("请勿发送空内容");
+      }
     };
     //#endregion
 
@@ -163,6 +163,10 @@ export default {
       // 当他人发送消息被接收到 向本地保存数据
       console.log(data);
       const chatRecordsData = props.chatRecordsData;
+      // 当 聊天数据为空数据 设置初始化聊天记录为空数据
+      if (chatRecordsData.chat_records === undefined)
+        chatRecordsData.chat_records = [];
+      // 给聊天记录添加 新的聊天记录
       chatRecordsData.chat_records.push(data.sendData);
       emit("update:chatRecordsData", chatRecordsData);
     });
@@ -172,6 +176,10 @@ export default {
     socket.on(`msgInfo`, (data) => {
       // 回调函数发送的数据返回给自己
       const chatRecordsData = props.chatRecordsData;
+      // 当 聊天数据为空数据 设置初始化聊天记录为空数据
+      if (chatRecordsData.chat_records === undefined)
+        chatRecordsData.chat_records = [];
+      // 给聊天记录添加 新的聊天记录
       chatRecordsData.chat_records.push(data.sendData);
       emit("update:chatRecordsData", chatRecordsData);
       console.log(data);
@@ -217,12 +225,12 @@ export default {
   .chat-msg {
     width: 100%;
     height: calc(100% - 150px);
+    overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 7px;
       border-radius: 7px;
       height: 1px;
     }
-    overflow-y: scroll;
     &::-webkit-scrollbar-thumb {
       /* 滚动条中的 小滑块 小方块 */
       width: 1px;
@@ -269,11 +277,14 @@ export default {
           }
           .send-msg-box {
             position: relative;
+            display: flex;
+            justify-content: flex-end;
             .send-msg {
               font-size: 16px;
               background-color: #fff;
               padding: 5px;
               border-radius: 5px;
+              width: fit-content;
             }
           }
         }

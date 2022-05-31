@@ -20,7 +20,8 @@
 
 <script>
 import { ref } from "vue-demi";
-import store from "../../store";
+import { useStore } from "vuex";
+import { getSelectedChatRecores } from "../../api/chat";
 export default {
   name: "RetrenchItem",
   props: {
@@ -28,8 +29,13 @@ export default {
       type: Array,
       default: () => [],
     },
+    chatRecordsData: {
+      type: Object,
+      default: () => {},
+    },
   },
-  setup() {
+  setup(props, { emit }) {
+    const store = useStore();
     // 选中的项目 的 index
     const enterIndex = ref(0);
     // 预选中（鼠标悬停） 的位置的 index
@@ -46,6 +52,12 @@ export default {
       enterIndex.value = index;
       // 选中当前项之后给 vuex~chatList模块中的chatWindow更新当前项的所有选中数据
       store.commit("chatList/setChatWindow", item);
+      // 选中之后通过 item.chatRoom 获取和对方聊天的数据
+      getSelectedChatRecores(item.chatRoom).then((response) => {
+        if (response.status === 200) {
+          emit("update:chatRecordsData", response.data);
+        }
+      });
     };
     return {
       preSelecttionIndex,
