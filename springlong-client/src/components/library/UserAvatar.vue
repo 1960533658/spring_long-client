@@ -14,12 +14,14 @@
     >
       <p class="username">{{ username }}</p>
       <p class="user-center">个人中心</p>
+      <p class="user-center" @click="logout">退出登录</p>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from "vue-demi";
+import { useRouter } from "vue-router";
 export default {
   name: "UserAvatar",
   props: {
@@ -37,19 +39,27 @@ export default {
     },
   },
   setup(props) {
+    const router = useRouter();
     const userInfoIsShow = ref(false);
+    // 鼠标移入头像 显示选项弹窗
     const userAvatarShow = () => {
       if (!props.isBar) return;
       userInfoIsShow.value = true;
       console.log("进入");
     };
+    // 鼠标移出用户选项，隐藏选项弹窗
     const userAvatarhiddle = () => {
       userInfoIsShow.value = false;
+    };
+    // 退出登录
+    const logout = () => {
+      router.push("/login");
     };
     return {
       userInfoIsShow,
       userAvatarShow,
       userAvatarhiddle,
+      logout,
     };
   },
 };

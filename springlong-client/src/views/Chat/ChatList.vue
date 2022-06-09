@@ -64,6 +64,7 @@ export default {
           });
           console.log(response);
           chatListData.value = response.chatList;
+          if (!response.chatList[0]) return;
           // 更新 vuex~chatList模块中的 聊天窗数据
           store.commit("chatList/setChatWindow", response.chatList[0]);
           // 当获取到用户数据之后获取默认第一个好友列表的聊天数据

@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <router-link to="/" class="chat-list">聊天列表</router-link>
+    <router-link to="/chatlist" class="chat-list">聊天列表</router-link>
     <router-link to="/chatfriend" class="chat-friend">联系人</router-link>
     <router-link to="/chatmoving" class="chat-moving">动态</router-link>
     <span class="avatar-box">

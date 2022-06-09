@@ -27,12 +27,12 @@
               >
                 {{ item.sendTime }}
               </span>
-              <div class="send-msg-box">
-                <p
-                  class="send-msg"
-                  :class="item.from === main.id ? 'tar' : ''"
-                  :ref="(el) => (msgHistory[index] = el)"
-                >
+              <!-- flex-item-end -->
+              <div
+                class="send-msg-box"
+                :class="item.from === main.id ? '' : 'flex-item-start'"
+              >
+                <p class="send-msg" :ref="(el) => (msgHistory[index] = el)">
                   {{ item.msg }}
                 </p>
               </div>
@@ -330,5 +330,8 @@ export default {
 }
 .tar {
   text-align: right;
+}
+.flex-item-start {
+  justify-content: flex-start !important;
 }
 </style>
