@@ -166,6 +166,8 @@ export default {
       if (!(usernameVerifyResult.toString() === "true")) {
         isusernameError.value = true;
         usernameErrorMsg.value = usernameVerifyResult;
+      } else {
+        isusernameError.value = false;
       }
     };
     // 密码校验
@@ -214,7 +216,6 @@ export default {
               store.commit("user/setUser", data.userInfo);
               message.success(`${data.msg}`);
               // 登录成功清空输入框
-              username.value = "";
               password.value = "";
               // 跳转到登录页面
               router.push("/");
@@ -222,6 +223,8 @@ export default {
               message.error(`${data.msg},请检查账号和用户名`);
             }
           });
+        } else {
+          message.error("格式错误，无法登录");
         }
       } else {
         isUserArgeeError.value = true;

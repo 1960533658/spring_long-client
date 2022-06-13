@@ -183,7 +183,6 @@ export default {
       formdata.set("myId", myId);
       uploadMovingDataAPI(formdata).then((response) => {
         console.log(response);
-
         // 当数据发送成功清空formdata表单
         movingStr.value = "";
 
@@ -191,6 +190,7 @@ export default {
         proviewPic.value = "#";
         if (response.status == 200) {
           message.success(response.msg);
+          formdata = new FormData();
           response.newMoving.portrait = store.state.user.profile.portrait;
           response.newMoving.username = store.state.user.profile.username;
           const newMoving = response.newMoving;
@@ -255,7 +255,7 @@ export default {
     .add {
       position: absolute;
       top: 0;
-      right: 10px;
+      right: 20px;
       font-size: 30px;
       cursor: pointer;
     }
@@ -302,7 +302,7 @@ export default {
       .moving-item {
         background-color: #fff;
         border-radius: 5px;
-        padding: 10px 10px 0;
+        padding: 10px 0 10px 10px;
         margin-bottom: 10px;
         .user-info {
           margin-bottom: 10px;
@@ -311,7 +311,6 @@ export default {
           }
         }
         .moving-content {
-          margin-bottom: 20px;
           .moving-text {
             margin-bottom: 10px;
             font-size: 16px;

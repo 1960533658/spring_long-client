@@ -78,6 +78,13 @@ export default {
     const searchItem = (id) => {
       // 向后端申请添加好友
       applyAdditionFriend(id, myId).then((resposen) => {
+        // 向Vuex判断是否需要进行好友申请数据的修改
+        const apply_list = store.state.user.profile.apply_list;
+        if (apply_list.myApply.indexOf(id) === -1) {
+          apply_list.myApply.push(id);
+          store.commit("user/setUser", apply_list);
+        }
+
         if (resposen.status === 206) {
           message.warn(resposen.msg);
         } else if (resposen.status === 200) {
@@ -100,6 +107,7 @@ export default {
         console.log(response);
         console.log(id);
         if (response.status === 200) {
+          // 信息弹窗显示 同意或拒绝成功
           message.success(response.msg);
           store.commit("delTagData2One", id);
           // 更新 vuex中的user模块好友数据
@@ -109,7 +117,14 @@ export default {
             // 更新Vuex 好友泪飙数据
             id: id,
           });
-          if (type === "agree") store.dispatch("disPatchGetGoodFriend", myId);
+          // 更新好友列表数据
+          if (type === "agree") {
+            const goodFriend = store.state.goodFriendsListData;
+            store.commit("getGoodFriend", [
+              ...goodFriend,
+              response.agreeApplyUserInfo,
+            ]);
+          }
         }
       });
     };

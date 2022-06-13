@@ -97,7 +97,7 @@ import { regist } from "@/api/user.js";
 import { verify } from "@/utils/verify";
 import { ref } from "vue";
 import { message } from "ant-design-vue";
-import router from "../../../router";
+import { useRouter } from "vue-router";
 export default {
   name: "RegistPage",
   components: {
@@ -106,6 +106,7 @@ export default {
   setup() {
     //#region  正则校验——
     // 双向数据绑定 账号名、密码、手机号
+    const router = useRouter();
     const username = ref("");
     const password = ref("");
     const repeatPassword = ref("");
@@ -128,6 +129,8 @@ export default {
       if (!(usernameVerifyResult.toString() === "true")) {
         isusernameError.value = true;
         usernameErrorMsg.value = usernameVerifyResult;
+      } else {
+        isusernameError.value = false;
       }
     };
     // 密码校验

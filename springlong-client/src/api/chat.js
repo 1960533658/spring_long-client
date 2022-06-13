@@ -14,6 +14,10 @@ export const applyAdditionFriend = (id, myId) => {
 export const getFriendApplyAdd = (ApplyList) => {
   return requestWithToken("/chat/applylist", "post", ApplyList);
 };
+// 通过id获取好友申请数据
+export const getFriendApplyListById = (myId) => {
+  return requestWithToken(`/chat/getapplylist/${myId}`, "get");
+};
 
 // 是否同意好友申请
 export const isAgreeApply = ({ id, myId, type }) => {

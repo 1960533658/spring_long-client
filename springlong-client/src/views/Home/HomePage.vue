@@ -16,6 +16,8 @@ import { onBeforeMount } from "vue";
 import router from "../../router";
 import { useStore } from "vuex";
 import ChatHead from "../Chat/components/ChatHead.vue";
+import { getGoodFriendsList } from "../../api/chat";
+import { message } from "ant-design-vue";
 
 export default {
   name: "HomePage",
@@ -26,6 +28,13 @@ export default {
       if (!store.state.user.profile.token) {
         router.push("/login");
       }
+      // 使用从后端获取数据的方式用来测验Token的有效期。
+      getGoodFriendsList(store.state.user.profile.id).then((response) => {
+        if (response.status === 100) {
+          message.warn(response.msg);
+          router.push("/login");
+        }
+      });
     });
     return {
       store,

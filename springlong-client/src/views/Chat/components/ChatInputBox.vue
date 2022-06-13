@@ -32,7 +32,11 @@
                 class="send-msg-box"
                 :class="item.from === main.id ? '' : 'flex-item-start'"
               >
-                <p class="send-msg" :ref="(el) => (msgHistory[index] = el)">
+                <p
+                  class="send-msg"
+                  v-height5
+                  :ref="(el) => (msgHistory[index] = el)"
+                >
                   {{ item.msg }}
                 </p>
               </div>
@@ -110,20 +114,6 @@ export default {
 
     //#region  聊天历史记录显示控制
     const msgHistory = ref([]);
-    /**
-     * 当数据加载的完成之后 获取p标签（渲染消息记录的标签） 的元素长度
-     * 当标签的长度大于500 就设置标签样式宽度为500，使其达到换行的效果
-     */
-    onMounted(() => {
-      // 遍历获取到的DOM实例
-      msgHistory.value.forEach((ele) => {
-        // 当检测到DOM实例元素宽度超过500
-        if (ele.offsetWidth > 500) {
-          // 设置元素width 为500px
-          ele.style.width = "500px";
-        }
-      });
-    });
     //#endregion
     //#region  发送消息
     //  使用 计算属性 监听vuex的 窗口选择的用户id
@@ -285,6 +275,7 @@ export default {
               padding: 5px;
               border-radius: 5px;
               width: fit-content;
+              // max-width: 500px;
             }
           }
         }

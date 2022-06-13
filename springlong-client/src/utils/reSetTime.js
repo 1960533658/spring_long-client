@@ -1,5 +1,5 @@
 const addZero = (item) => {
-  return item > 10 ? item : "0" + item;
+  return item >= 10 ? item : "0" + item;
 };
 export default function getNowTime(time) {
   let timeStr = "";

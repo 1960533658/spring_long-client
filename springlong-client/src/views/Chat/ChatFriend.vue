@@ -9,9 +9,9 @@
           <span @click="showFriendApplyModel">好友申请</span>
           <MessageCount :count="friendApplyCount" />
         </div>
-        <div class="option-item">
+        <!-- <div class="option-item">
           <span>还不知道</span>
-        </div>
+        </div> -->
       </div>
       <div class="friend-list">
         <h2>好友列表</h2>
@@ -56,6 +56,7 @@ import { computed, onBeforeMount, onMounted, ref } from "vue";
 import {
   delGoodFriend,
   getFriendApplyAdd,
+  getFriendApplyListById,
   getGoodFriendsList,
   searchFriend,
   updataGoodFriendsList,
@@ -142,6 +143,15 @@ export default {
           // 当token验证过期或没有 就跳转到登录页面
         } else if (response.status === 100) {
           message.warn(response.msg);
+          router.push("/login");
+        }
+      });
+      // 通过id初始化获取vuex中的数据
+      getFriendApplyListById(id).then((response) => {
+        if (response.status === 200) {
+          store.commit("user/setUser", { apply_list: response.apply_list });
+        } else if (response.status === 101) {
+          message.error(response.msg);
           router.push("/login");
         }
       });
